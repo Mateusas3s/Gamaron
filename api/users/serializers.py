@@ -12,14 +12,13 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         user = User(
             username=validated_data['username'],
             email=validated_data['email'],
-            password=make_password(validated_data['password']),
+            password=make_password(validated_data['password'])
         )
+        user.save()
 
         groups_data = validated_data.pop('groups')
-
         for group in groups_data:
                 user.groups.add(group)
-
         user.save()
         return user
 
@@ -40,11 +39,12 @@ class UserPlayerSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         """
         Overriding the default create method of the Model serializer.
-        :param validated_data: data containing all the details of student
-        :return: returns a successfully created student record
+        :param validated_data: data containing all the details of userplayer
+        :return: returns a successfully created student userplayer
         """
         user_data = validated_data.pop('user')
         user = UserSerializer.create(UserSerializer(), validated_data=user_data)
         player, created = UserPlayer.objects.update_or_create(user=user,
                             xp=validated_data.pop('xp'))
+        player.save()
         return player
