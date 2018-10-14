@@ -3,6 +3,10 @@ from django.contrib.auth.hashers import make_password
 from users.models import UserPlayer
 from rest_framework import serializers
 
+class GroupSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Group
+        fields = ('id', 'name', 'url')
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -18,15 +22,12 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
         groups_data = validated_data.pop('groups')
         for group in groups_data:
+                # usergroup = Group.objects.get(id=group['id'])
                 user.groups.add(group)
         user.save()
         return user
 
 
-class GroupSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Group
-        fields = ('url', 'name')
 
 
 class UserPlayerSerializer(serializers.ModelSerializer):
@@ -34,7 +35,7 @@ class UserPlayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserPlayer
-        fields = ('user', 'xp')
+        fields = ('id', 'user', 'xp')
 
     def create(self, validated_data):
         """
