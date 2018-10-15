@@ -1,13 +1,18 @@
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.hashers import make_password
 from users.models import UserPlayer
+from rest_framework.decorators import permission_classes
+from rest_framework import permissions
 from rest_framework import serializers
 
+@permission_classes((permissions.IsAuthenticatedOrReadOnly,))
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group
         fields = ('id', 'name', 'url')
 
+
+@permission_classes((permissions.AllowAny,))
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
@@ -29,7 +34,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 
-
+@permission_classes((permissions.AllowAny,))
 class UserPlayerSerializer(serializers.ModelSerializer):
     user = UserSerializer(many=False, required=True)
 

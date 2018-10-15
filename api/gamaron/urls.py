@@ -16,11 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import url, include
 from rest_framework import routers
-from users import views
+from users.views import UserViewSet, GroupViewSet
+from itens.views import ItenViewSet, PlayerInvetoryViewSet
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
+router.register(r'users', UserViewSet)
+router.register(r'groups', GroupViewSet)
+router.register(r'itens', ItenViewSet)
+router.register(r'inventory', PlayerInvetoryViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
