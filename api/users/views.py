@@ -1,21 +1,22 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, views
+from rest_framework.response import Response
 from users.serializers import UserSerializer, GroupSerializer, UserPlayerSerializer
 from users.models import UserPlayer
 
 class PlayerEvolveView(views.APIView):
-    queryset = UserPlayer.objects.all()
 
-    def get(self, request, format=None):
-        players = UserPlayer.objects.all()
-        serializer = UserPlayerSerializer(players, many=True)
+    def get(self, request, pk, format=None):
+        player = UserPlayer.objects.get(pk=pk)
+        serializer = UserPlayerSerializer(player, many=False, context={'request': request})
         return Response(serializer.data)
 
-    def post(self, request, format=None):
-        player = self.get_object(pk)
+    def post(self, request, pk, format=None):
+        player = UserPlayer.objects.get(pk=pk)
         xp = request.data
         player.xp += xp
-        serializer = UserPlayerSerializer(player, many=False)
+        player.save()
+        serializer = UserPlayerSerializer(player, many=False, context={'request': request})
         return Response(serializer.data)
 
 

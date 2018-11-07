@@ -7,4 +7,4 @@ from rest_framework import serializers
 class AvatarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Avatar
-        fields = ('name', 'image')
+        fields = ('id','name', 'image')

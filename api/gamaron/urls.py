@@ -22,6 +22,6 @@ router.register(r'avatar', AvatarViewSet)
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include(router.urls)),
-    url(r'^playerevolve/', PlayerEvolveView.as_view(), name='PlayerEvolve'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('playerevolve/<int:pk>/', PlayerEvolveView.as_view(), name='PlayerEvolve'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
