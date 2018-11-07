@@ -1,7 +1,7 @@
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.hashers import make_password
 from users.models import UserPlayer
-from rest_framework.decorators import permission_classes
+from rest_framework.decorators import permission_classes, api_view
 from rest_framework import permissions
 from rest_framework import serializers
 
@@ -54,3 +54,23 @@ class UserPlayerSerializer(serializers.ModelSerializer):
                             xp=validated_data.pop('xp'))
         player.save()
         return player
+
+
+class UserPlayerEvolveSerializer(serializers.BaseSerializer):
+
+    @api_view(['GET'])
+    def PlayersByXPSerializer(request):
+        queryset = UserPlayer.objects.order_by('-score')
+        serializer = UserPlayerEvolveSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    @api_view(['POST'])
+    def PlayersByXPSerializer(request, pk):
+        player = UserPlayer.objects.get(pk=pk)
+        serializer = UserPlayerEvolveSerializer(player, many=False)
+
+        xp_data = validated_data.pop('xp')
+
+        player.xp += xp_data
+        player.save()
+        return Response(serializer.data)

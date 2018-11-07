@@ -11,5 +11,5 @@ class Iten(models.Model):
                                    blank = False)
 
 class PlayerInventory(models.Model):
-    player = models.ForeignKey( UserPlayer, on_delete=models.CASCADE )
-    itens = models.ManyToManyField( Iten, blank = True )
+    player = models.ForeignKey( UserPlayer, on_delete=models.CASCADE, verbose_name="Player" )
+    itens = models.ManyToManyField( Iten, blank = True, verbose_name="Itens" )
