@@ -18,12 +18,14 @@ from django.conf.urls import url, include
 from rest_framework import routers
 from users.views import UserViewSet, GroupViewSet
 from itens.views import ItenViewSet, PlayerInvetoryViewSet
+from quests.views import QuestsViewSet
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'groups', GroupViewSet)
 router.register(r'itens', ItenViewSet)
 router.register(r'inventory', PlayerInvetoryViewSet)
+router.register(r'quests', QuestsViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
