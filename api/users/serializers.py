@@ -50,7 +50,8 @@ class UserPlayerSerializer(serializers.ModelSerializer):
         user_data = validated_data.pop('user')
         user = UserSerializer.create(UserSerializer(), validated_data=user_data)
         player, created = UserPlayer.objects.update_or_create(user=user,
-                                                              xp=validated_data.pop('xp'))
+                                                              xp=validated_data.pop('xp'),
+                                                              score=validated_data.pop('score'))
         player.save()
         avatar_data = validated_data.pop('avatar')
         for avatar in avatar_data:
